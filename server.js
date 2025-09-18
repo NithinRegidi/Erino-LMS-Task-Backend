@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "https://erino-lms-task-frontend.vercel.app/", // frontend link (will change later for deployment)
+  origin: "https://erino-lms-task-frontend.vercel.app", // frontend link (will change later for deployment)
   credentials: true
 }));
 
@@ -27,6 +27,15 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
+
+// allow frontend Vercel domain
+app.use(cors({
+  origin: "https://erino-lms-task-frontend.vercel.app",  // your Vercel URL
+  credentials: true,  // allow cookies
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],  // allow all HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"],     // allow headers your frontend sends
+}));
+
 
 
 const PORT = process.env.PORT || 5000;
