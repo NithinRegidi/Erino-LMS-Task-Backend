@@ -15,6 +15,8 @@ const seedUser = async () => {
     const email = "test@example.com";
     const password = "123456";
 
+
+    
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -40,3 +42,57 @@ const seedUser = async () => {
 };
 
 seedUser();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
