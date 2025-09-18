@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:3000", // frontend link (will change later for deployment)
+  origin: "https://erino-lms-task-frontend.vercel.app/", // frontend link (will change later for deployment)
   credentials: true
 }));
 
