@@ -48,10 +48,11 @@ const loginUser = async (req, res) => {
         const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : "1D"});
         
         res.cookie("token", token, {
-            httpOnly: true,
-            secure : true,
-            sameSite : "strict"
-        });
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    domain: ".vercel.app"
+});
 
         res.status(200).json({ message : "Login Successful" });
 

@@ -14,10 +14,6 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: "https://erino-lms-task-frontend.vercel.app", // frontend link (will change later for deployment)
-  credentials: true
-}));
 
 // Test route
 app.get("/", (req, res) => {
