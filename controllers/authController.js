@@ -29,10 +29,8 @@ const registerUser = async (req, res) => {
 
 
 // Login API
-
 const loginUser = async (req, res) => {
     try {
-
         const { email, password } = req.body;
         const user = await User.findOne({ email });
 
@@ -44,20 +42,29 @@ const loginUser = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-        // generates a JWT (JSON Web Token) for the authenticated user
-        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : "1D"});
+        // generates a JWT
+        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : "1d"});
         
+        // Set cookie with appropriate settings for cross-origin
         res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    domain: ".vercel.app"
-});
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
 
-        res.status(200).json({ message : "Login Successful" });
+        res.status(200).json({ 
+            message: "Login Successful",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
 
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        console.error("Login error:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 

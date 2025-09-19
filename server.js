@@ -11,28 +11,26 @@ connectDB();
 
 const app = express();
 
-// Middlewares
+// CORS middleware - MUST be before routes
+app.use(cors({
+  origin: "https://erino-lms-task-frontend.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+}));
+
+// Other Middlewares
 app.use(express.json());
 app.use(cookieParser());
+
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/leads", leadRoutes);
 
 // Test route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-
-
-app.use("/api/auth", authRoutes);
-app.use("/api/leads", leadRoutes);
-
-// allow frontend Vercel domain
-app.use(cors({
-  origin: "https://erino-lms-task-frontend.vercel.app",  // your Vercel URL
-  credentials: true,  // allow cookies
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],  // allow all HTTP methods
-  allowedHeaders: ["Content-Type", "Authorization"],     // allow headers your frontend sends
-}));
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
